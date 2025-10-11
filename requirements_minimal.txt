@@ -1,0 +1,8 @@
+# Minimal requirements for fast training
+pandas>=1.5.0
+numpy>=1.21.0
+scikit-learn>=1.1.0
+tqdm>=4.64.0
+
+# Optional (install if you want better performance)
+# xgboost>=1.6.0
