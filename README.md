@@ -2,35 +2,40 @@
 
 Streamlined solution for quick training and testing on the Smart Product Pricing Challenge.
 
-## 🚀 Quick Start (10K Training)
+## 🚀 Quick Start Options
 
-### 1. Setup (30 seconds)
+### ⚡ **GPU Accelerated (Recommended if you have GPU)**
 ```bash
+# 1. GPU Setup (1 minute)
+python setup_gpu.py
+
+# 2. Hybrid CPU+GPU Training (5-10 minutes)
+python hybrid_cpu_gpu_solution.py
+```
+
+### 🔥 **CPU Fast Training**
+```bash
+# 1. Setup (30 seconds)
 python setup_fast.py
-```
 
-### 2. Fast Training (2-3 minutes)
-```bash
+# 2. Fast Training (2-3 minutes)
 python train_10k.py
-```
 
-### 3. Full Training (when ready)
-```bash
+# 3. Full Training (15 minutes)
 python quick_solution.py
 ```
 
 ## 📁 Optimized File Structure
 
 ```
-├── train_10k.py              # Fast 10K sample training
-├── quick_solution.py          # Full dataset training  
-├── setup_fast.py             # Quick setup script
-├── diagnostic_tool.py         # Problem diagnosis
-├── requirements_minimal.txt   # Essential packages only
-└── archive/                   # Advanced solutions (moved)
-    ├── solution.py           # Full multimodal solution
-    ├── optimized_solution.py # Advanced optimization
-    └── documentation/        # Detailed guides
+├── hybrid_cpu_gpu_solution.py    # 🚀 GPU+CPU accelerated (BEST)
+├── gpu_accelerated_solution.py   # 🔥 Pure GPU solution
+├── quick_solution.py             # 💻 CPU-only full training
+├── train_10k.py                  # ⚡ Fast 10K testing
+├── setup_gpu.py                  # 🔧 GPU setup & detection
+├── setup_fast.py                 # 🔧 CPU setup
+├── diagnostic_tool.py            # 🔍 Problem diagnosis
+└── archive/                      # Advanced solutions
 ```
 
 ## ⚡ Fast Training Features
