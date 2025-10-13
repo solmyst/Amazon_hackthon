@@ -34,10 +34,29 @@ def check_gpu_availability():
                     print(f"✅ GPU {i}: {parts[0]}")
                     print(f"   Memory: {parts[1]} MB")
                     print(f"   Driver: {parts[2]}")
+            gpu_info['nvidia_driver'] = True
         else:
             print("❌ NVIDIA GPU not detected or nvidia-smi not available")
+            gpu_info['nvidia_driver'] = False
     except (subprocess.TimeoutExpired, FileNotFoundError):
         print("❌ nvidia-smi not found - NVIDIA GPU may not be available")
+        gpu_info['nvidia_driver'] = False
+    
+    # Check CUDA installation
+    try:
+        result = subprocess.run(['nvcc', '--version'], capture_output=True, text=True, timeout=10)
+        if result.returncode == 0:
+            for line in result.stdout.split('\n'):
+                if 'release' in line.lower():
+                    print(f"✅ CUDA Toolkit: {line.strip()}")
+                    gpu_info['cuda_toolkit'] = True
+                    break
+        else:
+            print("❌ CUDA Toolkit not found")
+            gpu_info['cuda_toolkit'] = False
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        print("❌ nvcc not found - CUDA Toolkit not installed")
+        gpu_info['cuda_toolkit'] = False
     
     # Check PyTorch GPU support
     try:
@@ -207,17 +226,42 @@ def main():
     create_gpu_config()
     
     # Final recommendations
-    print("\n🎯 SETUP COMPLETE!")
+    print("\n🎯 SETUP ANALYSIS")
     print("=" * 50)
     
-    if gpu_info.get('pytorch_cuda', False):
-        print("✅ GPU acceleration ready!")
-        print("   Run: python gpu_accelerated_solution.py")
+    # Check what's missing
+    missing_components = []
+    if not gpu_info.get('nvidia_driver', False):
+        missing_components.append('NVIDIA Driver')
+    if not gpu_info.get('cuda_toolkit', False):
+        missing_components.append('CUDA Toolkit')
+    if not gpu_info.get('pytorch_cuda', False):
+        missing_components.append('PyTorch CUDA')
+    
+    if not missing_components:
+        print("🎉 COMPLETE GPU SETUP!")
+        print("✅ All components ready for GPU acceleration")
+        print("   Run: python hybrid_cpu_gpu_solution.py")
         print("   Expected speedup: 2-5x faster training")
     else:
-        print("⚠️  GPU acceleration limited")
-        print("   CPU fallback available")
-        print("   Run: python quick_solution.py")
+        print("⚠️  INCOMPLETE GPU SETUP")
+        print(f"Missing: {', '.join(missing_components)}")
+        print()
+        
+        if 'NVIDIA Driver' in missing_components:
+            print("🔧 Install NVIDIA Driver:")
+            print("   https://www.nvidia.com/drivers/")
+        
+        if 'CUDA Toolkit' in missing_components:
+            print("🔧 Install CUDA Toolkit:")
+            print("   Run: python install_cuda.py")
+        
+        if 'PyTorch CUDA' in missing_components:
+            print("🔧 Install PyTorch with CUDA:")
+            print("   Run: python install_cuda.py --pytorch")
+        
+        print("\n💡 Alternative:")
+        print("   Run: python quick_solution.py (CPU-only)")
     
     print("\n💡 Performance Tips:")
     print("- Close other GPU applications")

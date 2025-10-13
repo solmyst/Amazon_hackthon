@@ -6,10 +6,13 @@ Streamlined solution for quick training and testing on the Smart Product Pricing
 
 ### ⚡ **GPU Accelerated (Recommended if you have GPU)**
 ```bash
-# 1. GPU Setup (1 minute)
+# 1. Check GPU Setup
 python setup_gpu.py
 
-# 2. Hybrid CPU+GPU Training (5-10 minutes)
+# 2. Install CUDA (if needed)
+python install_cuda.py
+
+# 3. Hybrid CPU+GPU Training (5-10 minutes)
 python hybrid_cpu_gpu_solution.py
 ```
 
@@ -32,11 +35,28 @@ python quick_solution.py
 ├── gpu_accelerated_solution.py   # 🔥 Pure GPU solution
 ├── quick_solution.py             # 💻 CPU-only full training
 ├── train_10k.py                  # ⚡ Fast 10K testing
+├── install_cuda.py               # 🔧 CUDA installation guide
 ├── setup_gpu.py                  # 🔧 GPU setup & detection
 ├── setup_fast.py                 # 🔧 CPU setup
-├── diagnostic_tool.py            # 🔍 Problem diagnosis
+├── CUDA_INSTALLATION_GUIDE.md    # 📚 Detailed CUDA guide
 └── archive/                      # Advanced solutions
 ```
+
+## 🔥 GPU Requirements
+
+### **For GPU Acceleration:**
+- **NVIDIA GPU** with 2GB+ VRAM
+- **CUDA Toolkit** (11.8 or 12.1)
+- **Updated NVIDIA Drivers**
+
+### **Quick CUDA Check:**
+```bash
+nvidia-smi  # Should show your GPU
+nvcc --version  # Should show CUDA version
+```
+
+### **Don't have CUDA?**
+No problem! Run `python install_cuda.py` for step-by-step installation.
 
 ## ⚡ Fast Training Features
 
